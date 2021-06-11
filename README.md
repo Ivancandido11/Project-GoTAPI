@@ -17,7 +17,6 @@ User will be able to like the posts and also leave comments on it.
   - User will be able to leave a comment on each characters post.
 
 ## Advanced Deliverables
-  - Have the menu list every single character from the API, once a character is clicked,
-    all of that characters quotes will be displayed on the DOM through "posts".
+  - Have the menu list every single character from the API, once a character is     clicked, all of that characters quotes will be displayed on the DOM through "posts".
   - Randomize feature that displays random "posts" from the characters.
   - Create my own Database and add persistence to user input.

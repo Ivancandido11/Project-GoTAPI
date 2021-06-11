@@ -1,4 +1,6 @@
 const pageBody = document.querySelector("body")
+const EMPTY_HEART = "♡"
+const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
 
 const post = () => {
@@ -10,6 +12,16 @@ const post = () => {
         createCharacterPost(person)
       })
     })
+}
+
+const likePost = (button) => {
+  if (button.innerHTML === EMPTY_HEART) {
+    button.classList = "activated-heart"
+    button.innerHTML = FULL_HEART
+  } else {
+    button.classList = "like-glyph"
+    button.innerHTML = EMPTY_HEART
+  }
 }
 
 const createCharacterPost = (character) => {
@@ -25,7 +37,7 @@ const createCharacterPost = (character) => {
   charArticle.classList = "media-post"
   like.id = character.slug
   like.classList = "like-glyph"
-  like.innerHTML = "&#x2661"
+  like.innerHTML = EMPTY_HEART
   commentBox.id = "comment-box"
   commentBox.type = "text"
   commentPost.id = "postBtn"
@@ -38,6 +50,9 @@ const createCharacterPost = (character) => {
   articleFooter.append(commentsUl, commentBox, commentPost)
   charArticle.append(articleHeader, charQuote, articleFooter)
   pageBody.append(charArticle)
+  like.addEventListener("click", () => {
+    likePost(like)
+  })
 }
 
 const init = () => {

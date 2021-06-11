@@ -5,6 +5,7 @@ body {
 
 .like-glyph {
   cursor: pointer;
+  padding: 1em 2em;
 }
 
 #nav-header {
@@ -90,4 +91,6 @@ article.media-post > footer ul {
 
 .activated-heart {
   color: #F05D23;
+  cursor: pointer;
+  padding: 1em 2em;
 }
