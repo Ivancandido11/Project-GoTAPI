@@ -24,6 +24,15 @@ const likePost = (button) => {
   }
 }
 
+const userComment = (footer, form) => {
+  const comment = form.comment.value
+  const commentLi = document.createElement("li")
+  commentLi.innerHTML = comment
+  const commentUl = footer.firstChild
+  commentUl.append(commentLi)
+  form.comment.value = ""
+}
+
 const createCharacterPost = (character) => {
   const charArticle = document.createElement("article")
   const articleHeader = document.createElement("header")
@@ -31,6 +40,7 @@ const createCharacterPost = (character) => {
   const charQuote = document.createElement("p")
   const like = document.createElement("span")
   const articleFooter = document.createElement("footer")
+  const commentForm = document.createElement("form")
   const commentsUl = document.createElement("ul")
   const commentBox = document.createElement("input")
   const commentPost = document.createElement("input")
@@ -39,19 +49,26 @@ const createCharacterPost = (character) => {
   like.classList = "like-glyph"
   like.innerHTML = EMPTY_HEART
   commentBox.id = "comment-box"
+  commentBox.name = "comment"
   commentBox.type = "text"
   commentPost.id = "postBtn"
   commentPost.type = "submit"
   commentPost.value = "Post"
+  commentsUl.name = "ul"
   charName.innerHTML = character.name
   charQuote.innerHTML = character.quotes[0]
   articleHeader.append(charName)
   charQuote.append(like)
-  articleFooter.append(commentsUl, commentBox, commentPost)
+  commentForm.append(commentBox, commentPost)
+  articleFooter.append(commentsUl, commentForm)
   charArticle.append(articleHeader, charQuote, articleFooter)
   pageBody.append(charArticle)
   like.addEventListener("click", () => {
     likePost(like)
+  })
+  commentForm.addEventListener("submit", (event) => {
+    event.preventDefault()
+    userComment(articleFooter, commentForm)
   })
 }
 
