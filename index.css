@@ -19,7 +19,7 @@ body {
 }
 
 nav ul {
-  margin-left: 15px;
+  margin-left: 1px;
 }
 
 nav ul li {
@@ -45,7 +45,7 @@ article.media-post {
   border: solid 1px #261C15;
   margin-top: 3%;
   margin-bottom: 1%;
-  margin-left: 15%;
+  margin-left: 18%;
   margin-right: 10%;
   background-color: #F7F7F2;
 }

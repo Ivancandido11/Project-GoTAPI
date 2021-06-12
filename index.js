@@ -1,17 +1,33 @@
-const pageBody = document.querySelector("body")
+const container = document.querySelector("#media-post-container")
 const EMPTY_HEART = "♡"
 const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
+const charactersMenu = document.querySelector("#characters")
 
 const post = () => {
   fetch(url)
     .then(resp => resp.json())
     .then(character => {
+      addMenuToDom(character)
       const characterArray = [character[0], character[1], character[2], character[3], character[4]]
       characterArray.forEach(person => {
-        createCharacterPost(person)
+        createCharacterPost(person, person.quotes[0])
       })
     })
+}
+
+const addMenuToDom = (characters) => {
+  characters.forEach(character => {
+    const characterLi = document.createElement("li")
+    characterLi.innerHTML = character.name
+    charactersMenu.append(characterLi)
+    characterLi.addEventListener("click", () => {
+      container.innerHTML = ""
+      character.quotes.forEach(quote => {
+        createCharacterPost(character, quote)
+      })
+    })
+  })
 }
 
 const likePost = (button) => {
@@ -33,7 +49,7 @@ const userComment = (footer, form) => {
   form.comment.value = ""
 }
 
-const createCharacterPost = (character) => {
+const createCharacterPost = (character, quote) => {
   const charArticle = document.createElement("article")
   const articleHeader = document.createElement("header")
   const charName = document.createElement("h2")
@@ -45,7 +61,6 @@ const createCharacterPost = (character) => {
   const commentBox = document.createElement("input")
   const commentPost = document.createElement("input")
   charArticle.classList = "media-post"
-  like.id = character.slug
   like.classList = "like-glyph"
   like.innerHTML = EMPTY_HEART
   commentBox.id = "comment-box"
@@ -55,14 +70,15 @@ const createCharacterPost = (character) => {
   commentPost.type = "submit"
   commentPost.value = "Post"
   commentsUl.name = "ul"
+  like.id = character.slug
   charName.innerHTML = character.name
-  charQuote.innerHTML = character.quotes[0]
+  charQuote.innerHTML = quote
   articleHeader.append(charName)
   charQuote.append(like)
   commentForm.append(commentBox, commentPost)
   articleFooter.append(commentsUl, commentForm)
   charArticle.append(articleHeader, charQuote, articleFooter)
-  pageBody.append(charArticle)
+  container.append(charArticle)
   like.addEventListener("click", () => {
     likePost(like)
   })
