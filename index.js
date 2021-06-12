@@ -2,7 +2,9 @@ const container = document.querySelector("#media-post-container")
 const EMPTY_HEART = "♡"
 const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
+const randomUrl = "https://game-of-thrones-quotes.herokuapp.com/v1/random/5"
 const charactersMenu = document.querySelector("#characters")
+const random = document.querySelector("#random")
 
 const post = () => {
   fetch(url)
@@ -14,6 +16,19 @@ const post = () => {
         createCharacterPost(person, person.quotes[0])
       })
     })
+}
+
+const randomize = () => {
+  random.addEventListener("click", () => {
+    container.innerHTML = ""
+    fetch(randomUrl)
+      .then(resp => resp.json())
+      .then(character => {
+        character.forEach(person => {
+          createCharacterPost(person.character, person.sentence)
+        })
+      })
+  })
 }
 
 const addMenuToDom = (characters) => {
@@ -90,6 +105,7 @@ const createCharacterPost = (character, quote) => {
 
 const init = () => {
   post()
+  randomize()
 }
 
 document.addEventListener("DOMContentLoaded", init)
