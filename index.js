@@ -1,4 +1,4 @@
-const container = document.querySelector("#media-post-container")
+const container = document.querySelector("#mediaPostContainer")
 const EMPTY_HEART = "♡"
 const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
@@ -13,6 +13,7 @@ const post = () => {
       addMenuToDom(character)
       const characterArray = [character[0], character[1], character[2], character[3], character[4]]
       characterArray.forEach(person => {
+        console.log(person)
         createCharacterPost(person, person.quotes[0])
       })
     })
@@ -25,6 +26,7 @@ const randomize = () => {
       .then(resp => resp.json())
       .then(character => {
         character.forEach(person => {
+          console.log(person)
           createCharacterPost(person.character, person.sentence)
         })
       })
@@ -33,10 +35,13 @@ const randomize = () => {
 
 const addMenuToDom = (characters) => {
   characters.forEach(character => {
-    const characterLi = document.createElement("li")
-    characterLi.innerHTML = character.name
-    charactersMenu.append(characterLi)
-    characterLi.addEventListener("click", () => {
+    const characterP = document.createElement("p")
+    const characterBtn = document.createElement("button")
+    characterBtn.innerHTML = character.name
+    characterBtn.classList = "navBtn"
+    characterP.append(characterBtn)
+    charactersMenu.append(characterP)
+    characterBtn.addEventListener("click", () => {
       container.innerHTML = ""
       character.quotes.forEach(quote => {
         createCharacterPost(character, quote)
@@ -47,10 +52,10 @@ const addMenuToDom = (characters) => {
 
 const likePost = (button) => {
   if (button.innerHTML === EMPTY_HEART) {
-    button.classList = "activated-heart"
+    button.classList = "activatedHeart"
     button.innerHTML = FULL_HEART
   } else {
-    button.classList = "like-glyph"
+    button.classList = "likeGlyph"
     button.innerHTML = EMPTY_HEART
   }
 }
@@ -58,6 +63,7 @@ const likePost = (button) => {
 const userComment = (footer, form) => {
   const comment = form.comment.value
   const commentLi = document.createElement("li")
+  commentLi.classList = "userComment"
   commentLi.innerHTML = comment
   const commentUl = footer.firstChild
   commentUl.append(commentLi)
@@ -69,28 +75,31 @@ const createCharacterPost = (character, quote) => {
   const articleHeader = document.createElement("header")
   const charName = document.createElement("h2")
   const charQuote = document.createElement("p")
-  const like = document.createElement("span")
+  const like = document.createElement("button")
   const articleFooter = document.createElement("footer")
   const commentForm = document.createElement("form")
   const commentsUl = document.createElement("ul")
   const commentBox = document.createElement("input")
   const commentPost = document.createElement("input")
-  charArticle.classList = "media-post"
-  like.classList = "like-glyph"
+  const commentsh = document.createElement("h5")
+  charArticle.classList = "mediaPost"
+  like.classList = "likeGlyph"
   like.innerHTML = EMPTY_HEART
-  commentBox.id = "comment-box"
+  commentBox.id = "commentBox"
   commentBox.name = "comment"
   commentBox.type = "text"
-  commentPost.id = "postBtn"
+  commentPost.classList = "postBtn"
   commentPost.type = "submit"
   commentPost.value = "Post"
   commentsUl.name = "ul"
+  commentsh.innerText = "Comments"
   like.id = character.slug
   charName.innerHTML = character.name
   charQuote.innerHTML = quote
   articleHeader.append(charName)
   charQuote.append(like)
   commentForm.append(commentBox, commentPost)
+  commentsUl.append(commentsh)
   articleFooter.append(commentsUl, commentForm)
   charArticle.append(articleHeader, charQuote, articleFooter)
   container.append(charArticle)
