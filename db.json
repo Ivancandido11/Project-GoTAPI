@@ -1,0 +1,38 @@
+{
+  "characters": {
+    "id": 1,
+    "name": "Jon Snow"
+  },
+  "quotes": [
+    {
+      "content": "If I fall, don't bring me back.",
+      "userComment": [],
+      "userLike": "♡",
+      "characterId": 1
+    },
+    {
+      "content": "There is only one war that matters. The Great War. And it is here.",
+      "userComment": [],
+      "userLike": "♡",
+      "characterId": "jon"
+    },
+    {
+      "content": "Love is the death of duty.",
+      "userComment": [],
+      "userLike": "♡",
+      "characterId": "jon"
+    },
+    {
+      "content": "Everything before the word \"but\" is horseshit.",
+      "userComment": [],
+      "userLike": "♡",
+      "characterId": "jon"
+    },
+    {
+      "content": "The war is not over. And I promise you, friend, the true enemy won't wait out the storm. He brings the storm.",
+      "userComment": [],
+      "userLike": "♡",
+      "characterId": "jon"
+    }
+  ]
+}

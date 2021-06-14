@@ -3,6 +3,7 @@ const EMPTY_HEART = "♡"
 const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
 const randomUrl = "https://game-of-thrones-quotes.herokuapp.com/v1/random/5"
+const persistUrl = "http://localhost:3000/quotes"
 const charactersMenu = document.querySelector("#characters")
 const random = document.querySelector("#random")
 
@@ -13,7 +14,6 @@ const post = () => {
       addMenuToDom(character)
       const characterArray = [character[0], character[1], character[2], character[3], character[4]]
       characterArray.forEach(person => {
-        console.log(person)
         createCharacterPost(person, person.quotes[0])
       })
     })
@@ -26,7 +26,6 @@ const randomize = () => {
       .then(resp => resp.json())
       .then(character => {
         character.forEach(person => {
-          console.log(person)
           createCharacterPost(person.character, person.sentence)
         })
       })
@@ -58,6 +57,21 @@ const likePost = (button) => {
     button.classList = "likeGlyph"
     button.innerHTML = EMPTY_HEART
   }
+  console.log(button.innerHTML)
+  const likeData = {
+    userLike: button.innerHTML
+  }
+  const configObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(likeData)
+  }
+  fetch(persistUrl, configObj)
+    .then(resp => resp.json())
+    .then(data => console.log(data))
 }
 
 const userComment = (footer, form) => {
