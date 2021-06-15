@@ -6,6 +6,7 @@ const randomUrl = "https://game-of-thrones-quotes.herokuapp.com/v1/random/5"
 const persistUrl = "http://localhost:3000/interaction/"
 const charactersMenu = document.querySelector("#characters")
 const random = document.querySelector("#random")
+const favorites = document.querySelector("#favorites")
 
 const post = () => {
   fetch(url)
@@ -32,6 +33,22 @@ const randomize = () => {
   })
 }
 
+const showFavorites = () => {
+  favorites.addEventListener("click", () => {
+    container.innerHTML = ""
+    fetch(persistUrl)
+      .then(resp => resp.json())
+      .then(interactions => {
+        interactions.forEach(action => {
+          if (action.like === true) {
+            console.log(action)
+            createCharacterPost(action, action.content)
+          }
+        })
+      })
+  })
+}
+
 const addMenuToDom = (characters) => {
   characters.forEach(character => {
     const characterP = document.createElement("p")
@@ -49,8 +66,10 @@ const addMenuToDom = (characters) => {
   })
 }
 
-const postComments = (userComment, quote) => {
+const postComments = (userComment, quote, character) => {
   const commentData = {
+    name: character.name,
+    slug: character.slug,
     content: quote,
     comment: [userComment],
     like: false
@@ -81,8 +100,10 @@ const patchComments = (commentArray, id) => {
   fetch(`${persistUrl}${id}`, configObj)
 }
 
-const postLike = (quote) => {
+const postLike = (quote, character) => {
   const likeData = {
+    name: character.name,
+    slug: character.slug,
     content: quote,
     comment: [],
     like: true
@@ -128,7 +149,7 @@ const patchLike = (content) => {
   }
 }
 
-const likeInteraction = (button, quote) => {
+const likeInteraction = (button, quote, character) => {
   if (button.innerHTML === EMPTY_HEART) {
     button.classList = "activatedHeart"
     button.innerHTML = FULL_HEART
@@ -143,15 +164,14 @@ const likeInteraction = (button, quote) => {
       if (contentExists === undefined) {
         button.classList = "activatedHeart"
         button.innerHTML = FULL_HEART
-        postLike(quote)
+        postLike(quote, character)
       } else {
-        console.log("patch")
         patchLike(contentExists)
       }
     })
 }
 
-const userComment = (footer, form, quote) => {
+const userComment = (footer, form, quote, character) => {
   const comment = form.comment.value
   const commentLi = document.createElement("li")
   commentLi.classList = "userComment"
@@ -164,7 +184,7 @@ const userComment = (footer, form, quote) => {
     .then(interaction => {
       const contentExists = interaction.find(action => action.content === quote)
       if (contentExists === undefined) {
-        postComments(comment, quote)
+        postComments(comment, quote, character)
       } else {
         const updatedComments = [...contentExists.comment, comment]
         patchComments(updatedComments, contentExists.id)
@@ -225,17 +245,18 @@ const createCharacterPost = (character, quote) => {
       articleFooter.append(commentsUl, commentForm)
     })
   like.addEventListener("click", () => {
-    likeInteraction(like, quote)
+    likeInteraction(like, quote, character)
   })
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault()
-    userComment(articleFooter, commentForm, quote)
+    userComment(articleFooter, commentForm, quote, character)
   })
 }
 
 const init = () => {
   post()
   randomize()
+  showFavorites()
 }
 
 document.addEventListener("DOMContentLoaded", init)

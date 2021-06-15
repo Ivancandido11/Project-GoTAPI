@@ -1,40 +1,56 @@
 {
   "interaction": [
     {
+      "name": "Jon Snow",
+      "slug": "jon",
       "content": "If I fall, don't bring me back.",
       "comment": [
-        "I got you Jon"
+        "screw you john"
       ],
-      "like": true,
+      "like": false,
       "id": 1
     },
     {
+      "name": "Sansa Stark",
+      "slug": "sansa",
       "content": "I hate the king more than any of them.",
-      "comment": [
-        "Me too Sansa"
-      ],
+      "comment": [],
       "like": false,
       "id": 2
     },
     {
+      "name": "Eddard \"Ned\" Stark",
+      "slug": "ned",
       "content": "The man who passes the sentence should swing the sword.",
-      "comment": [
-        "I always swing my sword"
-      ],
+      "comment": [],
       "like": true,
       "id": 3
     },
     {
+      "name": "Jaime Lannister",
+      "slug": "jaime",
       "content": "The things I do for love.",
       "comment": [],
       "like": true,
       "id": 4
     },
     {
+      "name": "Tyrion Lannister",
+      "slug": "tyrion",
       "content": "I have a tender spot in my heart for cripples, bastards and broken things.",
       "comment": [],
-      "like": true,
+      "like": false,
       "id": 5
+    },
+    {
+      "name": "Sansa Stark",
+      "slug": "sansa",
+      "content": "No need to seize the last word, Lord Baelish. I'll assume it was something clever.",
+      "comment": [
+        "whats up lady"
+      ],
+      "like": false,
+      "id": 6
     }
   ]
 }
