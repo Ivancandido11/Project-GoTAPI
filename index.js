@@ -3,7 +3,7 @@ const EMPTY_HEART = "♡"
 const FULL_HEART = "♥"
 const url = "https://game-of-thrones-quotes.herokuapp.com/v1/characters"
 const randomUrl = "https://game-of-thrones-quotes.herokuapp.com/v1/random/5"
-const persistUrl = "http://localhost:3000/quotes"
+const persistUrl = "http://localhost:3000/interaction/"
 const charactersMenu = document.querySelector("#characters")
 const random = document.querySelector("#random")
 
@@ -49,6 +49,38 @@ const addMenuToDom = (characters) => {
   })
 }
 
+const postIntereaction = (userComment, quote) => {
+  const commentData = {
+    content: quote,
+    comment: [userComment],
+    likes: "♡"
+  }
+  const configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(commentData)
+  }
+  fetch(persistUrl, configObj)
+}
+
+const patchInteraction = (commentArray, id) => {
+  const commentData = {
+    comment: commentArray
+  }
+  const configObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(commentData)
+  }
+  fetch(`${persistUrl}${id}`, configObj)
+}
+
 const likePost = (button) => {
   if (button.innerHTML === EMPTY_HEART) {
     button.classList = "activatedHeart"
@@ -57,24 +89,9 @@ const likePost = (button) => {
     button.classList = "likeGlyph"
     button.innerHTML = EMPTY_HEART
   }
-  console.log(button.innerHTML)
-  const likeData = {
-    userLike: button.innerHTML
-  }
-  const configObj = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify(likeData)
-  }
-  fetch(persistUrl, configObj)
-    .then(resp => resp.json())
-    .then(data => console.log(data))
 }
 
-const userComment = (footer, form) => {
+const userComment = (footer, form, quote) => {
   const comment = form.comment.value
   const commentLi = document.createElement("li")
   commentLi.classList = "userComment"
@@ -82,6 +99,17 @@ const userComment = (footer, form) => {
   const commentUl = footer.firstChild
   commentUl.append(commentLi)
   form.comment.value = ""
+  fetch(persistUrl)
+    .then(resp => resp.json())
+    .then(interaction => {
+      const contentExists = interaction.find(action => action.content === quote)
+      if (contentExists === undefined) {
+        postIntereaction(comment, quote)
+      } else {
+        const updatedComments = [...contentExists.comment, comment]
+        patchInteraction(updatedComments, contentExists.id)
+      }
+    })
 }
 
 const createCharacterPost = (character, quote) => {
@@ -122,7 +150,7 @@ const createCharacterPost = (character, quote) => {
   })
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault()
-    userComment(articleFooter, commentForm)
+    userComment(articleFooter, commentForm, quote)
   })
 }
 
