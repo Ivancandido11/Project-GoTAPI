@@ -1,24 +1,40 @@
 {
   "interaction": [
     {
-      "content": "I hate the king more than any of them.",
+      "content": "If I fall, don't bring me back.",
       "comment": [
-        "so this works",
-        "awesome ",
-        "lets go"
+        "I got you Jon"
       ],
-      "likes": "♡",
+      "like": true,
       "id": 1
     },
     {
-      "content": "If I fall, don't bring me back.",
+      "content": "I hate the king more than any of them.",
       "comment": [
-        "lets go",
-        "this is dope",
-        "I will bring you back Jon"
+        "Me too Sansa"
       ],
-      "likes": "♡",
+      "like": false,
       "id": 2
+    },
+    {
+      "content": "The man who passes the sentence should swing the sword.",
+      "comment": [
+        "I always swing my sword"
+      ],
+      "like": true,
+      "id": 3
+    },
+    {
+      "content": "The things I do for love.",
+      "comment": [],
+      "like": true,
+      "id": 4
+    },
+    {
+      "content": "I have a tender spot in my heart for cripples, bastards and broken things.",
+      "comment": [],
+      "like": true,
+      "id": 5
     }
   ]
 }

@@ -53,7 +53,7 @@ const postComments = (userComment, quote) => {
   const commentData = {
     content: quote,
     comment: [userComment],
-    likes: "♡"
+    like: false
   }
   const configObj = {
     method: "POST",
@@ -81,7 +81,54 @@ const patchComments = (commentArray, id) => {
   fetch(`${persistUrl}${id}`, configObj)
 }
 
-const likePost = (button) => {
+const postLike = (quote) => {
+  const likeData = {
+    content: quote,
+    comment: [],
+    like: true
+  }
+  const configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(likeData)
+  }
+  fetch(persistUrl, configObj)
+}
+
+const patchLike = (content) => {
+  if (content.like === true) {
+    const likeData = {
+      like: false
+    }
+    const configObj = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(likeData)
+    }
+    fetch(`${persistUrl}${content.id}`, configObj)
+  } else {
+    const likeData = {
+      like: true
+    }
+    const configObj = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(likeData)
+    }
+    fetch(`${persistUrl}${content.id}`, configObj)
+  }
+}
+
+const likeInteraction = (button, quote) => {
   if (button.innerHTML === EMPTY_HEART) {
     button.classList = "activatedHeart"
     button.innerHTML = FULL_HEART
@@ -89,6 +136,19 @@ const likePost = (button) => {
     button.classList = "likeGlyph"
     button.innerHTML = EMPTY_HEART
   }
+  fetch(persistUrl)
+    .then(resp => resp.json())
+    .then(data => {
+      const contentExists = data.find(action => action.content === quote)
+      if (contentExists === undefined) {
+        button.classList = "activatedHeart"
+        button.innerHTML = FULL_HEART
+        postLike(quote)
+      } else {
+        console.log("patch")
+        patchLike(contentExists)
+      }
+    })
 }
 
 const userComment = (footer, form, quote) => {
@@ -148,19 +208,24 @@ const createCharacterPost = (character, quote) => {
     .then(resp => resp.json())
     .then(interaction => {
       const contentExists = interaction.find(action => action.content === quote)
-      if (contentExists === undefined) {
-        articleFooter.append(commentsUl, commentForm)
-      } else {
+      if (!(contentExists === undefined)) {
+        if (contentExists.like === true) {
+          like.innerHTML = FULL_HEART
+          like.classList = "activatedHeart"
+        } else {
+          like.innerHTML = EMPTY_HEART
+          like.classList = "likeGlyph"
+        }
         contentExists.comment.forEach(comment => {
           const commentLi = document.createElement("li")
           commentLi.innerHTML = comment
           commentsUl.append(commentLi)
-          articleFooter.append(commentsUl, commentForm)
         })
       }
+      articleFooter.append(commentsUl, commentForm)
     })
   like.addEventListener("click", () => {
-    likePost(like)
+    likeInteraction(like, quote)
   })
   commentForm.addEventListener("submit", (event) => {
     event.preventDefault()
