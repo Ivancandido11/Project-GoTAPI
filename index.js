@@ -49,7 +49,7 @@ const addMenuToDom = (characters) => {
   })
 }
 
-const postIntereaction = (userComment, quote) => {
+const postComments = (userComment, quote) => {
   const commentData = {
     content: quote,
     comment: [userComment],
@@ -66,7 +66,7 @@ const postIntereaction = (userComment, quote) => {
   fetch(persistUrl, configObj)
 }
 
-const patchInteraction = (commentArray, id) => {
+const patchComments = (commentArray, id) => {
   const commentData = {
     comment: commentArray
   }
@@ -104,10 +104,10 @@ const userComment = (footer, form, quote) => {
     .then(interaction => {
       const contentExists = interaction.find(action => action.content === quote)
       if (contentExists === undefined) {
-        postIntereaction(comment, quote)
+        postComments(comment, quote)
       } else {
         const updatedComments = [...contentExists.comment, comment]
-        patchInteraction(updatedComments, contentExists.id)
+        patchComments(updatedComments, contentExists.id)
       }
     })
 }
@@ -138,13 +138,27 @@ const createCharacterPost = (character, quote) => {
   like.id = character.slug
   charName.innerHTML = character.name
   charQuote.innerHTML = quote
+  commentsUl.append(commentsh)
   articleHeader.append(charName)
   charQuote.append(like)
   commentForm.append(commentBox, commentPost)
-  commentsUl.append(commentsh)
-  articleFooter.append(commentsUl, commentForm)
   charArticle.append(articleHeader, charQuote, articleFooter)
   container.append(charArticle)
+  fetch(persistUrl)
+    .then(resp => resp.json())
+    .then(interaction => {
+      const contentExists = interaction.find(action => action.content === quote)
+      if (contentExists === undefined) {
+        articleFooter.append(commentsUl, commentForm)
+      } else {
+        contentExists.comment.forEach(comment => {
+          const commentLi = document.createElement("li")
+          commentLi.innerHTML = comment
+          commentsUl.append(commentLi)
+          articleFooter.append(commentsUl, commentForm)
+        })
+      }
+    })
   like.addEventListener("click", () => {
     likePost(like)
   })
