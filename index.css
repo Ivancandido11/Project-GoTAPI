@@ -24,6 +24,10 @@ body {
   margin-left: 5px;
 }
 
+header > h1 {
+  margin-left: 20px;
+}
+
 nav ul {
   margin-left: 1px;
 }

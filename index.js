@@ -41,7 +41,6 @@ const showFavorites = () => {
       .then(interactions => {
         interactions.forEach(action => {
           if (action.like === true) {
-            console.log(action)
             createCharacterPost(action, action.content)
           }
         })

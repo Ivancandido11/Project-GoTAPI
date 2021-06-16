@@ -5,7 +5,9 @@
       "slug": "jon",
       "content": "If I fall, don't bring me back.",
       "comment": [
-        "screw you john"
+        "screw you john",
+        "thats funny",
+        "Thanks Jon"
       ],
       "like": false,
       "id": 1
@@ -23,7 +25,7 @@
       "slug": "ned",
       "content": "The man who passes the sentence should swing the sword.",
       "comment": [],
-      "like": true,
+      "like": false,
       "id": 3
     },
     {
@@ -31,7 +33,7 @@
       "slug": "jaime",
       "content": "The things I do for love.",
       "comment": [],
-      "like": true,
+      "like": false,
       "id": 4
     },
     {
@@ -47,10 +49,58 @@
       "slug": "sansa",
       "content": "No need to seize the last word, Lord Baelish. I'll assume it was something clever.",
       "comment": [
-        "whats up lady"
+        "whats up lady",
+        "Lord Baelish is a bitch"
       ],
       "like": false,
       "id": 6
+    },
+    {
+      "name": "Tywin Lannister",
+      "slug": "tywin",
+      "content": "A lion does not concern himself with the opinion of sheep.",
+      "comment": [],
+      "like": false,
+      "id": 7
+    },
+    {
+      "name": "Cersei Lannister",
+      "slug": "cersei",
+      "content": "When you play the game of thrones, you win or you die. There is no middle ground.",
+      "comment": [],
+      "like": false,
+      "id": 8
+    },
+    {
+      "name": "Ramsay Bolton",
+      "slug": "ramsay",
+      "content": "If you think this has a happy ending, you haven't been paying attention.",
+      "comment": [],
+      "like": false,
+      "id": 9
+    },
+    {
+      "name": "Mance Rayder",
+      "slug": "mance",
+      "content": "The freedom to make my own mistakes was all I ever wanted.",
+      "comment": [
+        "Whats up",
+        "yo",
+        "this ",
+        "is cool"
+      ],
+      "like": true,
+      "id": 10
+    },
+    {
+      "name": "Olenna Tyrell",
+      "slug": "olenna",
+      "content": "The world is overflowing with horrible things, but they’re all a tray of cakes next to death.",
+      "comment": [
+        "Yo"
+      ],
+      "like": true,
+      "id": 11
     }
   ]
 }
